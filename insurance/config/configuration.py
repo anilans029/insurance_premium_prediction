@@ -19,7 +19,7 @@ class Configuration:
         except Exception as e:
             raise InsuranceException(e,sys) from e
 
-    def get_data_inagestion_config(self)-> DataIngestionConfig:
+    def get_data_ingestion_config(self)-> DataIngestionConfig:
         """
         The get_data_inagestion_config function returns a DataIngestionConfig object that contains the following:
             raw_data_dir: The directory where the raw data is located.
@@ -28,17 +28,18 @@ class Configuration:
         
         :param self: Access the class instance inside of a method
         :return: A dataingestionconfig object
-        
+
         :author: anil
         """
         try:
             artifact_dir = self.training_pipeline_config.artifact_dir
-            data_ingestion_artifact_dir=os.path.join(
-                artifact_dir,
-                DATA_INGESTION_ARTIFACT_DIR,
-                self.time_stamp
-            )
+            data_ingestion_artifact_dir=os.path.join(artifact_dir,DATA_INGESTION_ARTIFACT_DIR )
             data_ingestion_info = self.config_info[DATA_INGESTION_CONFIG_KEY]
+
+            zip_dataset_dir = data_ingestion_info[DATA_INGESTION_ZIP_DATASET_DIR_KEY]
+            zip_file_name = data_ingestion_info[DATA_INGESTION_DATASET_ZIP_NAME_KEY]
+            zip_file_path = os.path.join(data_ingestion_artifact_dir,zip_dataset_dir,zip_file_name)
+
             raw_data_dir = os.path.join(data_ingestion_artifact_dir,
             data_ingestion_info[DATA_INGESTION_RAW_DATA_DIR_KEY]
             )
@@ -58,6 +59,7 @@ class Configuration:
 
 
             data_ingestion_config=DataIngestionConfig(
+                zip_dataset_file_path=zip_file_path,
                 raw_data_dir=raw_data_dir, 
                 ingested_train_dir=ingested_train_dir, 
                 ingested_test_dir=ingested_test_dir
