@@ -14,14 +14,16 @@ TRAINING_PIPELINE_ARTIFACT_DIR_KEY = "artifact_dir"
 TRAINING_PIPELINE_NAME_KEY = "pipeline_name"
 
 # Data Ingestion related variable
+DATA_INGESTION_DONWLOAD_URL_KEY= "dataset_donwnload_url"
 DATA_INGESTION_CONFIG_KEY = "data_ingestion_config"
 DATA_INGESTION_ARTIFACT_DIR = "data_ingestion"
-DATA_INGESTION_DATASET_ZIP_NAME_KEY = "dataset_zip_name"
 DATA_INGESTION_RAW_DATA_DIR_KEY = "raw_data_dir"
 DATA_INGESTION_ZIP_DATASET_DIR_KEY = "zip_dataset_dir"
 DATA_INGESTION_INGESTED_DIR_NAME_KEY = "ingested_dir"
 DATA_INGESTION_TRAIN_DIR_KEY = "ingested_train_dir"
 DATA_INGESTION_TEST_DIR_KEY = "ingested_test_dir"
+DATA_INGESTION_ZIP_DATASET_NAME ="zip_dataset_name"
+
 
 # Data Validation related variables
 DATA_VALIDATION_CONFIG_KEY = "data_validation_config"
@@ -42,3 +44,8 @@ DATA_TRANSFORMATION_TRANSFORMED_TRAIN_DIR_KEY= "transformed_train_dir"
 DATA_TRANSFORMATION_TRANSFORMED_TEST_DIR_KEY= "transformed_test_dir"
 DATA_TRANSFORMATION_PREPROCESSING_DIR_KEY= "preprocessing_dir"
 DATA_TRANSFORMATION_PREPROCESSED_OBJECT_FILE_NAME_KEY= "preprocessed_object_file_name"
+
+DATASET_SCHEMA_COLUMNS_KEY = "columns"
+SCHEMA_NUMERICAL_COLUMNS_KEY= "numerical_columns"
+SCHEMA_CATEGORICAL_COLUMNS_KEY="categroical_colummns"
+SCHEMA_TARGET_COLUMN_KEY = "target_column"

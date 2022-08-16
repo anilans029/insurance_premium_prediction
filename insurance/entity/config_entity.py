@@ -3,16 +3,18 @@ from collections import namedtuple
 # ["dataset_download_url", "tgz_download_dir","raw_data_dir","ingested_train_dir","ingested_test_dir"]
 
 DataIngestionConfig = namedtuple("DataIngestionConfig",
-                                                     ["zip_dataset_file_path",
+                                                     ["dataset_download_url",
+                                                     "zip_download_dir",
                                                      "raw_data_dir",
-                                                    "ingested_train_dir",
-                                                    "ingested_test_dir"])
+                                                     "ingested_train_dir",
+                                                     "zip_dataset_name",
+                                                     "ingested_test_dir"])
 
 DataVaidationConfig = namedtuple("DataVaidationConfig",
                                                       ["schema_file_path","report_file_path","report_page_file_path"])
 
 # add_bedroom_per_romm : optional column to be added in dataset or not -> T or F
-DataTransformation = namedtuple("DataTransformation",[
+DataTransformationConfig = namedtuple("DataTransformation",[
                                                     "add_bedroom_per_romm",
                                                     "transformed_train_dir",
                                                     "transformed_test_dir",

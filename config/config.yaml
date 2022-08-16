@@ -3,9 +3,10 @@ training_pipeline_config:
   artifact_dir: artifact
 
 data_ingestion_config:
-  dataset_zip_name: insurance_premium_dataset.zip
+  dataset_donwnload_url: https://drive.google.com/uc?export=download&id=1j5Nr_joCYVGGXaje5ryoyLAFnRXXeKNy
   raw_data_dir: raw_data
   zip_dataset_dir: zip_data
+  zip_dataset_name: insurance.zip
   ingested_dir: ingested_data
   ingested_train_dir: train
   ingested_test_dir: test 

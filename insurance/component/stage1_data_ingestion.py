@@ -7,7 +7,7 @@ from insurance.entity.config_entity import DataIngestionConfig
 from insurance.exception import InsuranceException
 from insurance.logger import logging
 import numpy as np
-# from six.moves import urllib
+from six.moves import urllib
 import os, sys
 import zipfile
 import pandas as pd
@@ -20,21 +20,31 @@ class DataIngestion:
     def __init__(self, data_ingestion_config: DataIngestionConfig):
         
         try:
-            logging.info(f"{'>>'*20} logging for dataIngestion started {'<<'*20}")
+            logging.info(f"{'>>'*20} Data ingestioin log Started {'<<'*20}\n\n")
             self.data_ingestion_config = data_ingestion_config
 
         except Exception as e:
             raise InsuranceException(e,sys) from e
     
     
-    # def download_insurance_data(self):
+    def download_insurance_data(self):
         
-    #     try:
-    #         pass
-        
-    #     except Exception as e:
-    #         logging.exception(InsuranceException(e,sys))
-    #         raise InsuranceException(e,sys) from e
+        try:
+            download_url = self.data_ingestion_config.dataset_download_url
+            download_dir = self.data_ingestion_config.zip_download_dir
+
+            os.makedirs(download_dir, exist_ok=True)
+            dataset_file_name = self.data_ingestion_config.zip_dataset_name
+            zip_data_file_path = os.path.join(download_dir, dataset_file_name)
+
+
+            urllib.request.urlretrieve(download_url, zip_data_file_path)
+
+            logging.info(f"File :[{zip_data_file_path}] has been downloaded successfully.")
+            return zip_data_file_path
+        except Exception as e:
+            logging.exception(InsuranceException(e,sys))
+            raise InsuranceException(e,sys) from e
 
     def extract_zip_file(self, zip_file_path:str):
         """
@@ -114,7 +124,8 @@ class DataIngestion:
     def initiate_data_ingestion(self)-> DataIngestionArtifact:
         
         try:
-            zip_file_path = self.data_ingestion_config.zip_dataset_file_path
+            
+            zip_file_path = self.download_insurance_data()
             self.extract_zip_file(zip_file_path=zip_file_path)
             return self.split_data_as_train_test()
 
@@ -122,4 +133,4 @@ class DataIngestion:
             raise InsuranceException(e,sys) from e
 
     def __del__(self):
-        logging.info(f"{'>>'*20} Data ingestioin log completed {'<<'*20}")
+        logging.info(f"{'>>'*20} Data ingestioin log completed {'<<'*20}\n\n")

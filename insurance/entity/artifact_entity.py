@@ -1,6 +1,5 @@
 from collections import namedtuple
 
-from .config_entity import DataTransformation
 
 
 DataIngestionArtifact = namedtuple("DataIngestionArtifact",
