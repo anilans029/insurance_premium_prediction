@@ -9,7 +9,7 @@ DataIngestionConfig = namedtuple("DataIngestionConfig",
                                                     "ingested_test_dir"])
 
 DataVaidationConfig = namedtuple("DataVaidationConfig",
-                                                      ["schema_file_path"])
+                                                      ["schema_file_path","report_file_path","report_page_file_path"])
 
 # add_bedroom_per_romm : optional column to be added in dataset or not -> T or F
 DataTransformation = namedtuple("DataTransformation",[
