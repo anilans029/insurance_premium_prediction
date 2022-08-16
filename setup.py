@@ -5,7 +5,7 @@ from typing import List
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
-PROJECT_NAME = "insrance_premium_prediction"
+PROJECT_NAME = "insurance_premium_prediction"
 USER_NAME = "anilans029"
 REQUIREMENTS_FILE_NAME = 'requirements.txt'
 
