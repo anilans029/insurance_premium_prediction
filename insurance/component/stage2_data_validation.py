@@ -16,6 +16,7 @@ class DataValidation:
     def __init__(self,dataValidation_config: DataIngestionConfig,
                 data_ingestion_artifact:DataIngestionArtifact) -> None:
         try:
+            logging.info(f"{'>>'*30}Data Valdaition log started.{'<<'*30} \n\n")
             self.data_validation_config = dataValidation_config
             self.data_ingestion_artifact = data_ingestion_artifact
 
@@ -109,6 +110,7 @@ class DataValidation:
 
     def initiate_data_validation(self) :
         try:
+            
             self.is_train_test_file_exists()
             self.validate_dataset_schema()
             self.is_data_drift_found()

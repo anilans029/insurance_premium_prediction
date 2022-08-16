@@ -17,18 +17,18 @@ categroical_colummns:
   - sex
   - smoker
 
-  target_column: expenses
+target_column: expenses
 
-  domain_value:
-    region:
-      - southwest
-      - southeast
-      - northwest
-      - northeast
-    sex:
-      - male
-      - female
-    smoker:
-      - yes
-      - no
+domain_value:
+  region:
+    - southwest
+    - southeast
+    - northwest
+    - northeast
+  sex:
+    - male
+    - female
+  smoker:
+    - yes
+    - no
 
