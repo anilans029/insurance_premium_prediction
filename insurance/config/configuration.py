@@ -1,4 +1,6 @@
+import shutil
 import sys
+from xml.dom import InuseAttributeErr
 from insurance.entity.config_entity import *
 from insurance.utils.utils import read_yaml_file
 from insurance.constants import *
@@ -71,10 +73,59 @@ class Configuration:
             raise InsuranceException(e,sys) from e
 
     def get_data_validation_config(self)-> DataVaidationConfig:
-        pass
+        try:
+            artifact_dir = self.training_pipeline_config.artifact_dir
+            data_validation_artifact_dir=os.path.join(artifact_dir,DATA_VALIDATION_ARTIFACT_DIR_NAME)
+            data_validation_conif_info = self.config_info[DATA_VALIDATION_CONFIG_KEY]
+
+
+            schema_file_path = os.path.join(ROOT_DIR,
+                        data_validation_conif_info[DATA_VALIDATION_SCHEMA_DIR_KEY],
+                        data_validation_conif_info[DATA_VALIDATION_SCHEMA_FILE_NAME_KEY])
+
+            report_file_path = os.path.join(data_validation_artifact_dir,
+                                            data_validation_conif_info[DATA_VALIDATION_REPORT_FILE_NAME_KEY])
+
+            report_page_file_path = os.path.join(data_validation_artifact_dir,
+                                            data_validation_conif_info[DATA_VALIDATION_REPORT_PAGE_FILE_NAME_KEY])
+
+            dataValidationConfig = DataVaidationConfig(schema_file_path = schema_file_path,
+                                                report_file_path= report_file_path,
+                                                report_page_file_path=report_page_file_path)
+            return dataValidationConfig
+        except Exception as e:
+            raise InsuranceException(e,sys) from e
 
     def get_data_transformation_config(self)-> DataTransformation:
-        pass
+        
+        try:
+            data_tranformation_config_info = self.config_info[DATA_TRANSFORMATION_CONFIG_KEY]
+            data_transformation_dir =os.path.join(self.training_pipeline_config.artifact_dir,
+                                                 DATA_TRANSFORMATION_ARTIFACT_NAME,
+                                                 self.time_stamp)
+                
+            transformed_train_dir =os.path.join(data_transformation_dir,
+                                                data_tranformation_config_info[DATA_TRANSFORMATION_TRANSFORMED_DIR_KEY],
+                                                data_tranformation_config_info[DATA_TRANSFORMATION_TRANSFORMED_TRAIN_DIR_KEY])
+            transformed_test_dir= os.path.join(data_transformation_dir,
+                                                data_tranformation_config_info[DATA_TRANSFORMATION_TRANSFORMED_DIR_KEY],
+                                                data_tranformation_config_info[DATA_TRANSFORMATION_TRANSFORMED_TEST_DIR_KEY])
+            
+            preprocessed_obj_file_path = os.path.join(data_transformation_dir,
+                                                        data_tranformation_config_info[DATA_TRANSFORMATION_PREPROCESSING_DIR_KEY],
+                                                        data_tranformation_config_info[DATA_TRANSFORMATION_PREPROCESSED_OBJECT_FILE_NAME_KEY])
+
+
+            add_bedroom_per_romm = data_tranformation_config_info[DATA_TRANSFORMATION_ADD_BEDROOM_PER_ROOM_KEY]
+
+            data_tranformation = DataTransformation( add_bedroom_per_romm= add_bedroom_per_romm ,
+                                                transformed_train_dir = transformed_train_dir,
+                                                transformed_test_dir = transformed_test_dir, 
+                                                preprocessed_object_file_path= preprocessed_obj_file_path)
+            return data_tranformation
+
+        except Exception as e:
+            raise InsuranceException(e,sys) from e
 
     def get_model_trainer_cofig(self)-> ModelTrainerConfig:
         pass
