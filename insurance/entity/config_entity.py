@@ -22,7 +22,8 @@ DataTransformationConfig = namedtuple("DataTransformation",[
 
 ModelTrainerConfig = namedtuple("ModelTrainerConfig",
                                                     ["trained_model_file_path",
-                                                    "base_accuracy"])
+                                                    "base_accuracy",
+                                                    "model_config_file_path"])
 
 #  Model_Evaluation_file_path : it will containg path info of all the exising model in production
 ModelEvaluationConfig = namedtuple("ModelEvaluationConfig",
