@@ -12,7 +12,7 @@ from insurance.entity.artifact_entity import DataTransformationArtifact, ModelTr
 from insurance.entity.config_entity import ModelTrainerConfig
 from typing import List
 from insurance.entity.model_factory import ModelFactory, evaluate_regression_model, GridSearchedBestModel, MetricInfoArtifact
-from insurance.utils.utils import load_object, save_object
+from insurance.utils.utils import load_object, save_object, load_numpy_array_data
 
 class InsurancePremiumEstimator:
     def __init__(self, preprocessing_object, trained_model_object):
@@ -45,6 +45,7 @@ class ModelTrainer:
     def __init__(self, model_trainer_config: ModelTrainerConfig, data_tansformation_artifact: DataTransformationArtifact):
 
         try:
+            logging.info(f"{'>>>'*20} Model trainer log started {'<<<'*20}")
             self.model_trainer_config = model_trainer_config
             self.data_tranformation_artifact = data_tansformation_artifact
 
@@ -58,8 +59,11 @@ class ModelTrainer:
 
             ### getting the transformed train and test data from transformed_artifacts
             logging.info("getting the transformed train and test data from transformed_artifacts")
-            transformed_train_arr = self.data_tranformation_artifact.transformed_train_path
-            transformed_test_arr = self.data_tranformation_artifact.transformed_test_path
+            transformed_train_arr_path = self.data_tranformation_artifact.transformed_train_path
+            transformed_train_arr = load_numpy_array_data(file_path=transformed_train_arr_path)
+
+            transformed_test_arr_path = self.data_tranformation_artifact.transformed_test_path
+            transformed_test_arr = load_numpy_array_data(file_path=transformed_test_arr_path)
 
             ### dividing the input and target features for both train and test 
             logging.info("dividing the input and target features for both train and test ")
@@ -72,9 +76,9 @@ class ModelTrainer:
             os.path.exists(model_config_path)
 
             logging.info(f"Initializing the model factory with the {model_config_path}")
-            model_factory = ModelFactory(model_confi_file_path= model_config_path)
+            model_factory = ModelFactory(model_config_path= model_config_path)
 
-            base_accuracy = self.model_trainer_config[MODEL_TRAINER_BASE_ACCURACY_KEY]
+            base_accuracy = self.model_trainer_config.base_accuracy
             logging.info(f" Expected_base_accuracy : {base_accuracy}")
             
             ### Initializing operation of best model selection on both training and testing dataset
@@ -96,10 +100,10 @@ class ModelTrainer:
                                                                         y_test=test_y,
                                                                         base_accuracy=base_accuracy)
 
-            logging.info(f"Best found model on both training and testing dataset.")
+            logging.info(f"Best found model on both training and testing dataset : {metric_info.model_object} with accuracy = {metric_info.model_accuracy}")
             
-            ### Saving the preprocessing obeject and model object as combined Inusurance_premium_estimator model
-            preprocessing_obj=  load_object(file_path=self.data_transformation_artifact.preprocessed_object_file_path)
+            ### Saving the preprocessing object and model object as combined Inusurance_premium_estimator model
+            preprocessing_obj=  load_object(file_path=self.data_tranformation_artifact.preprocessed_pkl_path)
             model_object = metric_info.model_object
 
 
@@ -125,6 +129,8 @@ class ModelTrainer:
             logging.info(f"Best found model on both training and testing dataset.")
         except Exception as e:
             raise InsuranceException(e,sys) from e
+    def __del__(self):
+        logging.info(f"{'>>'*30}Model Trainer log completed.{'<<'*30} \n\n")
 
 
 #loading transformed training and testing datset

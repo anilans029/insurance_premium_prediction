@@ -55,7 +55,7 @@ class ModelFactory:
 
 
     @staticmethod
-    def get_class_for_name(self, moduel_name:str, class_name:str):
+    def get_class_for_name(moduel_name:str, class_name:str):
         try:
             ### this will import the rquired module and raise import error if that module cant be imported
             module = importlib.import_module(moduel_name)
@@ -123,22 +123,23 @@ class ModelFactory:
             # instantiating GridSearchCV class
             
            
-            grid_search_cv_ref = ModelFactory.class_for_name(module_name=self.grid_search_cv_module,
-                                                             class_name=self.grid_search_class_name
+            grid_search_cv_ref = ModelFactory.get_class_for_name(moduel_name=self.grid__search_csv_module,
+                                                             class_name=self.grid_search_cv_class
                                                              )
 
-            grid_search_cv = grid_search_cv_ref(estimator=initialized_model.model,
-                                                param_grid=initialized_model.param_grid_search)
-            grid_search_cv = ModelFactory.update_property_of_class(grid_search_cv,
-                                                                   self.grid_search_property_data)
+            grid_search_cv = grid_search_cv_ref(estimator=initialized_model.model_obj,
+                                                param_grid=initialized_model.params_grid_search)
+            grid_search_cv = ModelFactory.update_model_property_data(grid_search_cv,
+                                                                   self.grid_search_cv_propertry_data)
 
             
-            message = f'{">>"* 30} f"Training {type(initialized_model.model).__name__} Started." {"<<"*30}'
-            logging.info(message)
+            message1 = f'{">>"* 30} f"Training {type(initialized_model.model_obj).__name__} Started." {"<<"*30}'
+            logging.info(message1)
             grid_search_cv.fit(input_feature, output_feature)
-            message = f'{">>"* 30} f"Training {type(initialized_model.model).__name__}" completed {"<<"*30}'
+            message2 = f'{">>"* 30} f"Training {type(initialized_model.model_obj).__name__}" completed {"<<"*30}'
+            logging.info(message2)
             grid_searched_best_model = GridSearchedBestModel(model_serial_number=initialized_model.model_serial_number,
-                                                             model=initialized_model.model,
+                                                             model=initialized_model.model_obj,
                                                              best_model=grid_search_cv.best_estimator_,
                                                              best_parameters=grid_search_cv.best_params_,
                                                              best_score=grid_search_cv.best_score_
@@ -179,7 +180,8 @@ class ModelFactory:
                 grid_searched_best_model = self.start_best_parameter_search_for_initialized_model(initialized_model= initialized_model,
                                                                                                    input_feature= input_features ,
                                                                                                      output_feature=output_features)
-                self.grid_searched_best_model_list.append(grid_searched_best_model)                                                                               
+                self.grid_searched_best_model_list.append(grid_searched_best_model)
+            return self.grid_searched_best_model_list                                                                               
         
         except Exception as e:
             raise InsuranceException(e,sys) from e
@@ -195,7 +197,7 @@ class ModelFactory:
                                                     initialized_model_list= initialized_model_list,
                                                     input_features = input_features,
                                                     output_features = output_features)
-            best_model = ModelFactory.get_best_model_from_grid_searched_best_model_list(grid_searched_best_model_list,
+            best_model = ModelFactory.get_best_model_from_grid_searched_best_model_list(grid_searched_best_model_list =grid_searched_best_model_list,
                                                                                         base_accuracy= base_accuracy)
             return best_model
                                                                             
