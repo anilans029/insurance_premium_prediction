@@ -2,7 +2,7 @@
 
 
 import sys
-from insurance.entity.artifact_entity import DataIngestionArtifact,DataValidationArtifact, DataTransformationArtifact, ModelTrainerArtifact
+from insurance.entity.artifact_entity import DataIngestionArtifact,DataValidationArtifact,ModelEvaluationArtifact, DataTransformationArtifact, ModelTrainerArtifact
 from insurance.entity.config_entity import DataIngestionConfig
 from insurance.config.configuration import Configuration
 from insurance.exception import InsuranceException
@@ -10,6 +10,7 @@ from insurance.component.stage1_data_ingestion import DataIngestion
 from insurance.component.stage2_data_validation import DataValidation
 from insurance.component.stage3_data_transformation import Data_Tranformation
 from insurance.component.stage4_model_trainer import ModelTrainer
+from insurance.component.stage5_model_evaluation import ModelEvaluation
 
 class Pipeline:
 
@@ -63,6 +64,19 @@ class Pipeline:
         except Exception as e:
             raise InsuranceException(e, sys) from e
 
+    def start_model_evaluation(self, data_ingestion_artifact: DataIngestionArtifact,
+                               data_validation_artifact: DataValidationArtifact,
+                               model_trainer_artifact: ModelTrainerArtifact) -> ModelEvaluationArtifact:
+        try:
+            model_eval = ModelEvaluation(
+                model_evaluation_config=self.config.get_model_evaluation_cofig(),
+                data_ingestion_artifact=data_ingestion_artifact,
+                data_validation_artifact=data_validation_artifact,
+                model_trainer_artifact=model_trainer_artifact)
+            return model_eval.initiate_model_evaluation()
+        except Exception as e:
+            raise InsuranceException(e, sys) from e
+
     def run_pipeline(self):
         try:
             data_ingestion_artifact = self.start_data_ingestion()
@@ -72,6 +86,10 @@ class Pipeline:
                                                                 data_validation_artifact=data_validaion_artifact
                                                                 )
             model_trainer_artifact = self.start_model_trainer(data_transformation_artifact=data_transformation_artifact)
+
+            model_evaluation_artifact = self.start_model_evaluation(data_ingestion_artifact=data_ingestion_artifact,
+                                                                    data_validation_artifact=data_validaion_artifact,
+                                                                    model_trainer_artifact=model_trainer_artifact)
 
         except Exception as e:
             raise InsuranceException(e, sys) from e
