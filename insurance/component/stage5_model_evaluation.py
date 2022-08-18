@@ -157,4 +157,4 @@ class ModelEvaluation:
             raise InsuranceException(e, sys) from e
 
     def __del__(self):
-        logging.info(f"{'=' * 20}Model Evaluation log completed.{'=' * 20} ")
+        logging.info(f"{'>>' * 30}Model Evaluation log completed.{'<<' * 30} \n\n")
