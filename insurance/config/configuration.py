@@ -1,7 +1,6 @@
 import shutil
 import sys
-from xml.dom import InuseAttributeErr
-from insurance.entity.config_entity import TrainPipelineConfig,DataIngestionConfig, DataVaidationConfig, DataTransformationConfig, ModelTrainerConfig, ModelEvaluationConfig, ModelPusherConfig
+from insurance.entity.config_entity import TrainingPipelineConfig,DataIngestionConfig, DataVaidationConfig, DataTransformationConfig, ModelTrainerConfig, ModelEvaluationConfig, ModelPusherConfig
 from insurance.utils.utils import read_yaml_file
 from insurance.constants import *
 from insurance.logger import logging
@@ -186,7 +185,7 @@ class Configuration:
         except Exception as e:
             raise InsuranceException(e,sys) from e
 
-    def get_training_pipeline_config(self)-> TrainPipelineConfig:
+    def get_training_pipeline_config(self)-> TrainingPipelineConfig:
         """
         The get_training_pipeline_config function returns a TrainPipelineConfig object that contains the 
         artifact directory where the training artifacts will be stored. The artifact directory is specified in 
@@ -205,7 +204,7 @@ class Configuration:
                                         training_pipeline_config[TRAINING_PIPELINE_ARTIFACT_DIR_KEY]
                                         )
 
-            training_pipeline_config = TrainPipelineConfig(artifact_dir=artifact_dir)
+            training_pipeline_config = TrainingPipelineConfig(artifact_dir=artifact_dir)
             logging.info(f"Training pipleine config: {training_pipeline_config}")
             return training_pipeline_config
         except Exception as e:
