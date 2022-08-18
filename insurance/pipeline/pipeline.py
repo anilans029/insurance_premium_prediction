@@ -1,9 +1,11 @@
 
 
 
+import imp
 import sys
-from insurance.entity.artifact_entity import DataIngestionArtifact,DataValidationArtifact,ModelEvaluationArtifact, DataTransformationArtifact, ModelTrainerArtifact
+from insurance.entity.artifact_entity import ModelPusherArtifact,DataIngestionArtifact,DataValidationArtifact,ModelEvaluationArtifact, DataTransformationArtifact, ModelTrainerArtifact
 from insurance.entity.config_entity import DataIngestionConfig
+from insurance.logger import logging
 from insurance.config.configuration import Configuration
 from insurance.exception import InsuranceException
 from insurance.component.stage1_data_ingestion import DataIngestion
@@ -11,6 +13,7 @@ from insurance.component.stage2_data_validation import DataValidation
 from insurance.component.stage3_data_transformation import Data_Tranformation
 from insurance.component.stage4_model_trainer import ModelTrainer
 from insurance.component.stage5_model_evaluation import ModelEvaluation
+from insurance.component.stage6_model_pusher import ModelPusher
 
 class Pipeline:
 
@@ -77,6 +80,16 @@ class Pipeline:
         except Exception as e:
             raise InsuranceException(e, sys) from e
 
+    def start_model_pusher(self, model_eval_artifact: ModelEvaluationArtifact) -> ModelPusherArtifact:
+        try:
+            model_pusher = ModelPusher(
+                model_pusher_config=self.config.get_model_pusher_cofig(),
+                model_evaluation_artifact=model_eval_artifact
+            )
+            return model_pusher.initiate_model_pusher()
+        except Exception as e:
+            raise InsuranceException(e, sys) from e
+
     def run_pipeline(self):
         try:
             data_ingestion_artifact = self.start_data_ingestion()
@@ -90,6 +103,13 @@ class Pipeline:
             model_evaluation_artifact = self.start_model_evaluation(data_ingestion_artifact=data_ingestion_artifact,
                                                                     data_validation_artifact=data_validaion_artifact,
                                                                     model_trainer_artifact=model_trainer_artifact)
+
+            if model_evaluation_artifact.is_model_accepted:
+                model_pusher_artifact = self.start_model_pusher(model_eval_artifact=model_evaluation_artifact)
+                logging.info(f'Model pusher artifact: {model_pusher_artifact}')
+            else:
+                logging.info("Trained model rejected.")
+            logging.info("Pipeline completed.")
 
         except Exception as e:
             raise InsuranceException(e, sys) from e
