@@ -25,9 +25,12 @@ Experiment = namedtuple("Experiment", ["experiment_id", "initialization_timestam
                                        "running_status", "start_time", "stop_time", "execution_time", "message",
                                        "experiment_file_path", "accuracy", "is_model_accepted"])
 
+
+
+configuration = Configuration()
 class Pipeline(Thread):
     experiment: Experiment = Experiment(*([None] * 11))
-    experiment_file_path = None
+    experiment_file_path = os.path.join(configuration.training_pipeline_config.artifact_dir,EXPERIMENT_DIR_NAME, EXPERIMENT_FILE_NAME)
 
     def __init__(self,config : Configuration = Configuration())-> None:
         try:
