@@ -89,7 +89,7 @@ class DataIngestion:
             stratifed_test_set = None
             stratified_train_set = None
 
-            split = StratifiedShuffleSplit(n_splits=1,test_size=0.2,random_state=42)
+            split = StratifiedShuffleSplit(n_splits=1,test_size=0.2,random_state=32)
             
             for train_index,test_index in split.split(insurance_data_frame, insurance_data_frame["expense_cat"]):
                 strat_train_set = insurance_data_frame.loc[train_index].drop(["expense_cat"],axis=1)

@@ -297,6 +297,14 @@ def evaluate_regression_model(model_list: list, X_train:np.ndarray, y_train:np.n
             index_number += 1
         if metric_info_artifact is None:
             logging.info(f"No model found with higher accuracy than base accuracy")
+            return MetricInfoArtifact(model_name=None,
+                                                        model_object=None,
+                                                        train_rmse=None,
+                                                        test_rmse=None,
+                                                        train_accuracy=None,
+                                                        test_accuracy=None,
+                                                        model_accuracy=None,
+                                                        index_number=None)
         return metric_info_artifact
     except Exception as e:
         raise InsuranceException(e, sys) from e
