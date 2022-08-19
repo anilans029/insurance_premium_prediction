@@ -4,7 +4,9 @@ grid_search:
   params:
     cv: 5
     verbose: 2
+
 model_selection:
+
   module_0:
     class: LinearRegression
     module: sklearn.linear_model
@@ -14,6 +16,7 @@ model_selection:
       fit_intercept:
       - true
       - false
+
   module_1:
     class: RandomForestRegressor
     module: sklearn.ensemble
@@ -22,3 +25,53 @@ model_selection:
     search_param_grid:
       min_samples_leaf:
       - 6
+
+  module_2:
+    class: DecisionTreeRegressor
+    module: sklearn.tree
+    params:
+      criterion:
+      - squared_error
+      max_features:
+      - None
+    search_param_grid:
+      criterion:
+      - squared_error
+      - friedman_mse
+      - absolute_error
+      - poisson
+      max_features:
+      - 'auto'
+      - 'sqrt'
+      - 'log2'
+
+  module_3:
+    class: GradientBoostingRegressor
+    module: sklearn.ensemble
+    params:
+      learning_rate: 0.01
+      n_estimators: 100
+      subsample: 0.5
+    search_param_grid:
+      learning_rate:
+      - 0.001
+      - 0.01
+      - 0.1
+      n_estimators:
+      - 50
+      - 100
+      - 500
+      subsample:
+      - 0.5
+      - 0.7
+      max_depth:
+      - 3
+      - 7
+      - 9
+
+
+
+
+
+
+
