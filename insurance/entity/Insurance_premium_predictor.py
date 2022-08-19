@@ -3,6 +3,7 @@ import sys
 from insurance.exception import InsuranceException
 from insurance.utils.utils import load_object
 import pandas as pd
+import numpy as np
 
 
 class PremiumData:
@@ -82,7 +83,7 @@ class PremiumPredictor:
         try:
             model_path = self.get_latest_model_path()
             model = load_object(file_path=model_path)
-            expenses = model.predict(X)
+            expenses = np.round(model.predict(X),2)
             return expenses
 
         except Exception as e:
