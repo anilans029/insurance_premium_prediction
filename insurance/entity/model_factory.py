@@ -197,6 +197,7 @@ class ModelFactory:
                                                     initialized_model_list= initialized_model_list,
                                                     input_features = input_features,
                                                     output_features = output_features)
+            logging.info(f"*********************The model_list is : [{grid_searched_best_model_list}*******************]")
             best_model = ModelFactory.get_best_model_from_grid_searched_best_model_list(grid_searched_best_model_list =grid_searched_best_model_list,
                                                                                         base_accuracy= base_accuracy)
             return best_model
@@ -209,6 +210,7 @@ class ModelFactory:
         try:
             best_model = None
             for grid_searched_best_model in grid_searched_best_model_list:
+                print(grid_searched_best_model)
                 if base_accuracy < grid_searched_best_model.best_score:
                     logging.info(f"Acceptable model found:{grid_searched_best_model}")
                     
