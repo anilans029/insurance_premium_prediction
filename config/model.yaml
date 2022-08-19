@@ -54,7 +54,6 @@ model_selection:
       subsample: 0.5
     search_param_grid:
       learning_rate:
-      - 0.001
       - 0.01
       - 0.1
       n_estimators:
@@ -66,7 +65,6 @@ model_selection:
       - 0.7
       max_depth:
       - 3
-      - 7
       - 9
 
 
