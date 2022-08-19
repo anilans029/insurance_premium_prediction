@@ -130,5 +130,4 @@ dmypy.json
 
 insurance/artifact
 demo_app.py
-/app.py
 /saved_models
