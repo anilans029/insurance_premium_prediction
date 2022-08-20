@@ -1,11 +1,13 @@
 # HEALTH INSURANCE PREMIUM PREDICTION: 
 ## Problem Statement :
 
-The goal of this project is to give people an estimate of how much they need based on their individual health situation. After that, customers can work with any health insurance carrier and its plans and perks while keeping the projected cost from our study in mind. This can assist a person in concentrating on the health side of an insurance policy rather han the ineffective part.
+The goal of this project is to give people an estimate of how much they need based on their individual health situation. After that, customers can work with any health insurance carrier and its plans and perks while keeping the projected cost from our study in mind. This can assist a person in concentrating on the health side of an insurance policy rather than the ineffective part.
 
 # DATASET:
 The dataset is taken from Kaggle site. Yo can download the dataset from [https://www.kaggle.com/datasets/noordeen/insurance-premium-prediction]
 
+# Project Demo:
+https://www.youtube.com/watch?v=uzOjmLzO56U&ab_channel=anilsai
 
 # DEPLOYMENT LINK:
 https://health-insurance-premium-pred.herokuapp.com/
