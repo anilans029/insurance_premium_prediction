@@ -11,12 +11,6 @@ The dataset is taken from Kaggle site. Yo can download the dataset from [https:/
 https://health-insurance-premium-pred.herokuapp.com/
 
 # Project Pipeline
-1. [Data Ingestion](#1-data-ingestion)
-2. [Data Validation](#2-data-validation)
-3. [Data Transformation](#3-data-transformation)
-4. [Model Training](#4-model-training)
-5. [Model Evaluation](#5-model-evaluation)
-6. [Model Deployement](#6-model-deployement)
 
 ### 1. Data Ingestion: 
 * Data ingestion is the process in which unstructured data is extracted from one or multiple sources and then prepared for training machine learning models.
