@@ -9,7 +9,7 @@ The dataset is taken from Kaggle site. Yo can download the dataset from [https:/
 # Project Demo:
 https://www.youtube.com/watch?v=uzOjmLzO56U&ab_channel=anilsai
 
-# DEPLOYMENT LINK:
+# DEPLOYMENT LINK: (due to change in terms of heroku, the app has been removed and below link is not working. I will change the deployment to some other cloud service)
 https://health-insurance-premium-pred.herokuapp.com/
 
 # Project Pipeline
